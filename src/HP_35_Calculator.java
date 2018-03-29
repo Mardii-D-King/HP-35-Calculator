@@ -35,8 +35,9 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		JButton buttonPlus = new JButton("+");
 		JButton buttonMinus = new JButton("-");
 		JButton buttonEqual = new JButton("=");
+		JButton buttonSpace = new JButton("Space");
 		
-		JTextArea expression = new JTextArea();
+		JTextArea expressionTxtA = new JTextArea();
 	/**
 	 * Launch the application.
 	 */
@@ -58,80 +59,82 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 	 */
 	public HP_35_Calculator() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 408, 387);
+		setBounds(100, 100, 393, 387);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		button7.setBounds(22, 164, 46, 35);
+		button7.setBounds(10, 164, 46, 35);
 		contentPane.add(button7);
 			
-		button8.setBounds(78, 164, 46, 35);
+		button8.setBounds(66, 164, 46, 35);
 		contentPane.add(button8);
 			
-		button9.setBounds(134, 164, 46, 35);
+		button9.setBounds(122, 164, 46, 35);
 		contentPane.add(button9);
 				
-		button4.setBounds(22, 210, 46, 35);
+		button4.setBounds(10, 210, 46, 35);
 		contentPane.add(button4);
 			
-		button5.setBounds(78, 210, 46, 35);
+		button5.setBounds(66, 210, 46, 35);
 		contentPane.add(button5);
 			
-		button6.setBounds(134, 210, 46, 35);
+		button6.setBounds(122, 210, 46, 35);
 		contentPane.add(button6);	
 		
-		button1.setBounds(22, 256, 46, 35);
+		button1.setBounds(10, 256, 46, 35);
 		contentPane.add(button1);
 			
-		button2.setBounds(78, 256, 46, 35);
+		button2.setBounds(66, 256, 46, 35);
 		contentPane.add(button2);
 			
-		button3.setBounds(134, 256, 46, 35);
+		button3.setBounds(122, 256, 46, 35);
 		contentPane.add(button3);
 
-		button0.setBounds(78, 302, 46, 35);
+		button0.setBounds(66, 302, 46, 35);
 		contentPane.add(button0);
 		
-		buttond.setBounds(276, 164, 46, 35);
+		buttond.setBounds(264, 164, 46, 35);
 		contentPane.add(buttond);		
 		
-		buttonc.setBounds(335, 164, 46, 35);
+		buttonc.setBounds(320, 164, 46, 35);
 		contentPane.add(buttonc);
 		
-		buttonm.setBounds(178, 118, 46, 35);
+		buttonm.setBounds(166, 118, 46, 35);
 		contentPane.add(buttonm);
 		
-		buttonf.setBounds(235, 118, 46, 35);
+		buttonf.setBounds(221, 118, 46, 35);
 		contentPane.add(buttonf);
 		
-		buttonx.setBounds(335, 101, 46, 35);
+		buttonx.setBounds(320, 102, 46, 35);
 		contentPane.add(buttonx);
 		
-		buttonMulti.setBounds(276, 210, 46, 35);
+		buttonMulti.setBounds(264, 210, 46, 35);
 		contentPane.add(buttonMulti);
 		
-		buttonDiv.setBounds(335, 210, 46, 35);
+		buttonDiv.setBounds(320, 210, 46, 35);
 		contentPane.add(buttonDiv);
 		
-		buttonPlus.setBounds(279, 256, 46, 35);
+		buttonPlus.setBounds(264, 256, 46, 35);
 		contentPane.add(buttonPlus);
 		
-		buttonMinus.setBounds(335, 256, 46, 35);
+		buttonMinus.setBounds(320, 256, 46, 35);
 		contentPane.add(buttonMinus);
 		
-		buttonEqual.setBounds(310, 302, 46, 35);
+		buttonEqual.setBounds(293, 302, 46, 35);
 		contentPane.add(buttonEqual);
+		
+		buttonSpace.setBounds(166, 302, 101, 35);
+		contentPane.add(buttonSpace);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		textField_1.setBounds(128, 56, 194, 35);
 		contentPane.add(textField_1);
 		
-		expression.setBounds(35, 11, 287, 35);
-		contentPane.add(expression);
-		
+		expressionTxtA.setBounds(35, 11, 287, 35);
+		contentPane.add(expressionTxtA);		
 		
 		button7.addActionListener(this);
 		button8.addActionListener(this);
@@ -147,6 +150,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		buttonMinus.addActionListener(this);
 		buttonDiv.addActionListener(this);
 		buttonMulti.addActionListener(this);
+		buttonSpace.addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e){
@@ -155,71 +159,104 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		
 		if(source == button7){
 		
-			expression.append("7");
+			expressionTxtA.append("7");
 		}
 		
 		if(source == button8){
 		
-			expression.append("8");
+			expressionTxtA.append("8");
 		}
 		
 		if(source == button9){
 		
-			expression.append("9");
+			expressionTxtA.append("9");
 		}
 		
 		if(source == button4){
 		
-			expression.append("4");
+			expressionTxtA.append("4");
 		}
 		
 		if(source == button5){
 		
-			expression.append("5");
+			expressionTxtA.append("5");
 		}
 		
 		if(source == button6){
 		
-			expression.append("6");
+			expressionTxtA.append("6");
 		}
 		
 		if(source == button1){
 		
-			expression.append("1");
+			expressionTxtA.append("1");
 		}
 		
 		if(source == button2){
 		
-			expression.append("2");
+			expressionTxtA.append("2");
 		}
 		
 		if(source == button3){
 		
-			expression.append("3");
+			expressionTxtA.append("3");
 		}
 				
 		if(source == button0){
 		
-			expression.append("0");
+			expressionTxtA.append("0");
 		}
 		if(source == buttonMulti){
 		
-			expression.append("*");
+			expressionTxtA.append("*");
 		}
 		
 		if(source == buttonDiv){
 		
-			expression.append("/");
+			expressionTxtA.append("/");
 		}
 		
 		if(source == buttonPlus){
 		
-			expression.append("+");
+			expressionTxtA.append("+");
 		}
 		
 		if(source == buttonMinus){
 		
-			expression.append("-");
+			expressionTxtA.append("-");
 		}
+		
+		if(source == buttonSpace){
+			expressionTxtA.append(" ");
+		}
+	}
+	
+	public String expression_reader() {
+		double num1;
+		String expression;
+		expression = expressionTxtA.getText();
+		num1 = Double.valueOf(expression);
+		
+		return expression;
+	}
+	
+	public String calculatePostFix(String expression) {
+		
+		String result="AI";
+		
+		expression = expression_reader();
+		
+		//do stacks popping and pushing
+		
+		return result;
+	}
+	
+	public String infixToPostfix(String expression) {
+		
+		String result="AI";
+		
+		expression = expression_reader();
+		
+		return result;
 	}
 }
