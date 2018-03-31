@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +15,6 @@ import javax.swing.JTextArea;
 public class HP_35_Calculator extends JFrame  implements ActionListener{
 
 	private JPanel contentPane;
-	private JTextField textField_1;
 
 		JButton button7 = new JButton("7");
 		JButton button8 = new JButton("8");
@@ -38,6 +39,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		JButton buttonSpace = new JButton("Space");
 		
 		JTextArea expressionTxtA = new JTextArea();
+		JTextArea resultTxtArea = new JTextArea();
 	/**
 	 * Launch the application.
 	 */
@@ -122,19 +124,27 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		buttonMinus.setBounds(320, 256, 46, 35);
 		contentPane.add(buttonMinus);
 		
+		buttonEqual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int result = calculatePostFix();
+				
+				resultTxtArea.setText(Integer.toString(result));
+			}
+		});
+		
 		buttonEqual.setBounds(293, 302, 46, 35);
 		contentPane.add(buttonEqual);
 		
 		buttonSpace.setBounds(166, 302, 101, 35);
 		contentPane.add(buttonSpace);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(128, 56, 194, 35);
-		contentPane.add(textField_1);
-		
 		expressionTxtA.setBounds(35, 11, 287, 35);
 		contentPane.add(expressionTxtA);		
+		
+		
+		resultTxtArea.setBounds(221, 57, 101, 35);
+		contentPane.add(resultTxtArea);
 		
 		button7.addActionListener(this);
 		button8.addActionListener(this);
@@ -231,31 +241,72 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		}
 	}
 	
-	public String expression_reader() {
-		double num1;
-		String expression;
-		expression = expressionTxtA.getText();
-		num1 = Double.valueOf(expression);
+	public int calculatePostFix() {
 		
-		return expression;
-	}
-	
-	public String calculatePostFix(String expression) {
+		String inputExpression = expressionTxtA.getText();
+		String[] Expression = inputExpression.split(" ");
 		
-		String result="AI";
+
 		
-		expression = expression_reader();
+		Deque<Integer> stack = new ArrayDeque<>();
+		int operand1, operand2;
 		
-		//do stacks popping and pushing
-		
-		return result;
+		for(int i = 0; i < Expression.length; i++) {
+			
+			if(Expression[i].equals("*")) {
+				
+				 operand2 = stack.pop();
+				 operand1 = stack.pop();
+				 
+				 System.out.println("Operating: " + operand1 + " * " + operand2);
+				 System.out.println("Pushing results: " + (operand1 * operand2));
+				 stack.push(operand1 * operand2);
+			}
+			
+			else if(Expression[i].equals("/")) {
+				
+				 operand2 = stack.pop();
+				 operand1 = stack.pop();
+				 
+				 System.out.println("Operating: " + operand1 + " / " + operand2);
+				 System.out.println("Pushing results: " + (operand1 / operand2));
+				 stack.push(operand1 / operand2);
+			}
+			
+			else if(Expression[i].equals("+")) {
+				
+				 operand2 = stack.pop();
+				 operand1 = stack.pop();
+				 
+				 System.out.println("Operating: " + operand1 + " + " + operand2);
+				 System.out.println("Pushing results: " + (operand1 + operand2));
+				 stack.push(operand1 + operand2);
+			}
+			
+			else if(Expression[i].equals("-")) {
+				
+				 operand2 = stack.pop();
+				 operand1 = stack.pop();
+				 
+				 System.out.println("Operating: " + operand1 + " - " + operand2);
+				 System.out.println("Pushing results: " + (operand1 - operand2));
+				 stack.push(operand1 - operand2);
+			}
+			else {
+				System.out.println("Pushed: " + Expression[i]);
+				stack.push(Integer.parseInt(Expression[i]));
+			}
+			
+		}
+		System.out.println("The result is: " + stack.pop());
+		return stack.pop();
 	}
 	
 	public String infixToPostfix(String expression) {
 		
 		String result="AI";
 		
-		expression = expression_reader();
+		//expression = expression_reader();
 		
 		return result;
 	}
