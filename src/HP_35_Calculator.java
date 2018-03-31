@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 import javax.swing.JFrame;
@@ -9,10 +10,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.JComboBox;
 
 public class HP_35_Calculator extends JFrame  implements ActionListener{
 
 	private JPanel contentPane;
+	protected Deque<String> memory = new ArrayDeque<>();
+	protected Deque<String> mem = new ArrayDeque<>();
+	String prev;
+	String[] test;
 
 		JButton button7 = new JButton("7");
 		JButton button8 = new JButton("8");
@@ -24,7 +30,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		JButton button2 = new JButton("2");
 		JButton button3 = new JButton("3");
 		JButton button0 = new JButton("0");
-		JButton buttond = new JButton("d");
+		JButton buttonb = new JButton("b");
 		JButton buttonc = new JButton("c");
 		JButton buttonm = new JButton("m");
 		JButton buttonf = new JButton("f");
@@ -37,7 +43,6 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		JButton buttonSpace = new JButton("Space");
 		
 		JTextArea expressionTxtA = new JTextArea();
-		JTextArea resultTxtArea = new JTextArea();
 	/**
 	 * Launch the application.
 	 */
@@ -65,84 +70,75 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		button7.setBounds(10, 164, 46, 35);
+		button7.setBounds(10, 138, 46, 35);
 		contentPane.add(button7);
 			
-		button8.setBounds(66, 164, 46, 35);
+		button8.setBounds(66, 138, 46, 35);
 		contentPane.add(button8);
 			
-		button9.setBounds(122, 164, 46, 35);
+		button9.setBounds(122, 138, 46, 35);
 		contentPane.add(button9);
 				
-		button4.setBounds(10, 210, 46, 35);
+		button4.setBounds(10, 184, 46, 35);
 		contentPane.add(button4);
 			
-		button5.setBounds(66, 210, 46, 35);
+		button5.setBounds(66, 184, 46, 35);
 		contentPane.add(button5);
 			
-		button6.setBounds(122, 210, 46, 35);
+		button6.setBounds(122, 184, 46, 35);
 		contentPane.add(button6);	
 		
-		button1.setBounds(10, 256, 46, 35);
+		button1.setBounds(10, 230, 46, 35);
 		contentPane.add(button1);
 			
-		button2.setBounds(66, 256, 46, 35);
+		button2.setBounds(66, 230, 46, 35);
 		contentPane.add(button2);
 			
-		button3.setBounds(122, 256, 46, 35);
+		button3.setBounds(122, 230, 46, 35);
 		contentPane.add(button3);
 
-		button0.setBounds(66, 302, 46, 35);
+		button0.setBounds(66, 276, 46, 35);
 		contentPane.add(button0);
 		
-		buttond.setBounds(264, 164, 46, 35);
-		contentPane.add(buttond);		
+		buttonb.setBounds(264, 138, 46, 35);
+		contentPane.add(buttonb);		
 		
-		buttonc.setBounds(320, 164, 46, 35);
+		buttonc.setBounds(320, 138, 46, 35);
 		contentPane.add(buttonc);
 		
-		buttonm.setBounds(166, 118, 46, 35);
+		buttonm.setBounds(166, 92, 46, 35);
 		contentPane.add(buttonm);
 		
-		buttonf.setBounds(221, 118, 46, 35);
+		buttonf.setBounds(222, 92, 46, 35);
 		contentPane.add(buttonf);
 		
-		buttonx.setBounds(320, 102, 46, 35);
+		buttonx.setBounds(320, 57, 46, 35);
 		contentPane.add(buttonx);
 		
-		buttonMulti.setBounds(264, 210, 46, 35);
+		buttonMulti.setBounds(264, 184, 46, 35);
 		contentPane.add(buttonMulti);
 		
-		buttonDiv.setBounds(320, 210, 46, 35);
+		buttonDiv.setBounds(320, 184, 46, 35);
 		contentPane.add(buttonDiv);
 		
-		buttonPlus.setBounds(264, 256, 46, 35);
+		buttonPlus.setBounds(264, 230, 46, 35);
 		contentPane.add(buttonPlus);
 		
-		buttonMinus.setBounds(320, 256, 46, 35);
+		buttonMinus.setBounds(320, 230, 46, 35);
 		contentPane.add(buttonMinus);
 		
-		buttonEqual.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				int answer = calculatePostFix();
-				
-				resultTxtArea.setText(String.valueOf(answer));
-			}
-		});
-		
-		buttonEqual.setBounds(293, 302, 46, 35);
+		buttonEqual.setBounds(291, 276, 46, 35);
 		contentPane.add(buttonEqual);
 		
-		buttonSpace.setBounds(166, 302, 101, 35);
+		buttonSpace.setBounds(166, 276, 101, 35);
 		contentPane.add(buttonSpace);
 		
 		expressionTxtA.setBounds(35, 11, 287, 35);
-		contentPane.add(expressionTxtA);		
+		contentPane.add(expressionTxtA);
 		
-		
-		resultTxtArea.setBounds(221, 57, 101, 35);
-		contentPane.add(resultTxtArea);
+		JComboBox format = new JComboBox();
+		format.setBounds(10, 75, 102, 29);
+		contentPane.add(format);
 		
 		button7.addActionListener(this);
 		button8.addActionListener(this);
@@ -159,6 +155,77 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		buttonDiv.addActionListener(this);
 		buttonMulti.addActionListener(this);
 		buttonSpace.addActionListener(this);
+		
+		buttonx.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				expressionTxtA.setText("");
+				expressionTxtA.setText("GoodBye");
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.exit(0);
+			}
+		});
+		
+		buttonc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				expressionTxtA.setText("");
+			}
+		});
+		
+		buttonEqual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int answer = calculatePostFix();
+				
+				expressionTxtA.setText("");
+				expressionTxtA.setText(String.valueOf(answer));
+			}
+		});
+		
+		buttonm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+		//get items from memory stack and push them back to text area and set it
+				if(memory.size() < 1) {
+					expressionTxtA.append("");
+				}
+				else {
+					expressionTxtA.append(memory.pop());
+				}				
+			}
+		});
+		
+		buttonb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String inputExpression = expressionTxtA.getText();	
+				String[] Expression = inputExpression.split("");
+				Deque<String> stack = new ArrayDeque<>();
+				
+				expressionTxtA.setText(expressionTxtA.getText().substring(0,expressionTxtA.getText().length()-1));
+				
+				for(int i = 0; i < Expression.length; i++) {
+					
+					stack.push(Expression[i]);
+				}				
+						
+				 String mem = stack.pop();
+				 memory.push(mem);
+				 
+				 Arrays.copyOf(Expression, Expression.length-1);
+				 			 
+				 System.out.println(stack);
+				 System.out.println(mem);
+				 System.out.println(memory);
+
+			}
+		});
+		
 	}
 	
 	public void actionPerformed(ActionEvent e){
