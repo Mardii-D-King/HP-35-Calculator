@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +7,6 @@ import java.util.Deque;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
@@ -127,9 +125,9 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		buttonEqual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				int result = calculatePostFix();
+				int answer = calculatePostFix();
 				
-				resultTxtArea.setText(Integer.toString(result));
+				resultTxtArea.setText(String.valueOf(answer));
 			}
 		});
 		
@@ -245,9 +243,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		
 		String inputExpression = expressionTxtA.getText();
 		String[] Expression = inputExpression.split(" ");
-		
-
-		
+				
 		Deque<Integer> stack = new ArrayDeque<>();
 		int operand1, operand2;
 		
@@ -298,8 +294,12 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 			}
 			
 		}
-		System.out.println("The result is: " + stack.pop());
-		return stack.pop();
+		
+		int result = stack.pop();
+		System.out.println("The result is: " + result);
+		
+		
+		return result;
 	}
 	
 	public String infixToPostfix(String expression) {
