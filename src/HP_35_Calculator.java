@@ -1,6 +1,8 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
@@ -19,6 +21,9 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 	protected Deque<String> mem = new ArrayDeque<>();
 	String prev;
 	String[] test;
+	
+	//Work on greeting message that shows the brand of the calculator and other anesthetics
+	//Also work on input validation and creativity
 
 		JButton button7 = new JButton("7");
 		JButton button8 = new JButton("8");
@@ -136,10 +141,6 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		expressionTxtA.setBounds(35, 11, 287, 35);
 		contentPane.add(expressionTxtA);
 		
-		JComboBox format = new JComboBox();
-		format.setBounds(10, 75, 102, 29);
-		contentPane.add(format);
-		
 		button7.addActionListener(this);
 		button8.addActionListener(this);
 		button9.addActionListener(this);
@@ -226,6 +227,33 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 			}
 		});
 		
+		buttonf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				RandomAccessFile raFile = null;
+				String inputExpression = expressionTxtA.getText();
+							
+				try {
+					
+					raFile = new RandomAccessFile("expression.dat","rw");				
+					raFile.seek(raFile.length());
+					raFile.writeUTF(inputExpression + "\n");
+					
+				}catch(IOException e) {
+					
+					e.printStackTrace();
+					System.out.println("Error Accessing file");
+				}finally {
+					try {
+						raFile.close();
+					}catch(IOException e0) {
+						
+						e0.printStackTrace();
+						System.out.println("Error closing file");
+					}
+				}
+			}
+		});		
 	}
 	
 	public void actionPerformed(ActionEvent e){
