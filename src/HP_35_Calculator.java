@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,8 +20,10 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 	private JPanel contentPane;
 	protected Deque<String> memory = new ArrayDeque<>();
 	protected Deque<String> mem = new ArrayDeque<>();
-	String prev;
-	String[] test;
+	protected Deque<String> stack = new ArrayDeque<>();
+
+	String result="";
+
 	
 	//Work on greeting message that shows the brand of the calculator and other anesthetics
 	//Also work on input validation and creativity
@@ -46,6 +49,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		JButton buttonMinus = new JButton("-");
 		JButton buttonEqual = new JButton("=");
 		JButton buttonSpace = new JButton("Space");
+		JButton btnTopostfix = new JButton("ToPostfix");
 		
 		JTextArea expressionTxtA = new JTextArea();
 	/**
@@ -141,6 +145,9 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		expressionTxtA.setBounds(35, 11, 287, 35);
 		contentPane.add(expressionTxtA);
 		
+		btnTopostfix.setBounds(10, 81, 89, 23);
+		contentPane.add(btnTopostfix);
+		
 		button7.addActionListener(this);
 		button8.addActionListener(this);
 		button9.addActionListener(this);
@@ -165,7 +172,6 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				System.exit(0);
@@ -253,7 +259,16 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 					}
 				}
 			}
-		});		
+		});	
+		
+		btnTopostfix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String ans = infixToPostfix();
+				expressionTxtA.setText(ans);
+				System.out.println("Postfix is " + ans + '\n');
+			}
+		});
 	}
 	
 	public void actionPerformed(ActionEvent e){
@@ -392,17 +407,63 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		
 		int result = stack.pop();
 		System.out.println("The result is: " + result);
-		
-		
+			
 		return result;
 	}
 	
-	public String infixToPostfix(String expression) {
+	public String infixToPostfix() {		
+
+		String inputExpression = expressionTxtA.getText();
+		String[] Expression = inputExpression.split(" ");
 		
-		String result="AI";
-		
-		//expression = expression_reader();
-		
-		return result;
+		for(int i = 0; i < Expression.length; i++) {
+			
+			if(Expression[i].equals("*") || Expression[i].equals("/")) {
+				//System.out.println(Expression[i]);
+				gotOper(Expression[i], 2); 	
+			}
+			
+			else if(Expression[i].equals("+") || Expression[i].equals("-")) {
+				
+				gotOper(Expression[i], 1);
+			 	System.out.println(Expression[i]);
+			}
+			
+			else {
+				
+				result += Expression[i];
+				System.out.println(Expression[i]);
+			}
+		}
+			
+			 while(!stack.isEmpty()) {
+				 result += stack.pop();
+			 }
+			 System.out.println(result);
+		      return result; 
 	}
+	
+	public void gotOper(String expression, int prec1) {
+		System.out.println(expression);
+		
+	      while (!stack.isEmpty()) {
+	    	  
+	    	  	String opTop = stack.pop();	   
+	            int prec2;
+	            
+	            if (opTop.equals("+") || opTop.equals("-"))
+	            prec2 = 1;
+	            else
+	            prec2 = 2;
+	            
+	            if (prec2 < prec1) { 
+	               stack.push(opTop);
+	               break;
+	            } 
+	            else result += opTop;
+	         }
+	      
+	      System.out.println(expression);
+	      stack.push(expression);
+	   }
 }
