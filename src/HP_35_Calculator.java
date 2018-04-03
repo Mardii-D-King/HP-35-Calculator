@@ -7,6 +7,8 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,7 +24,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 	protected Deque<String> mem = new ArrayDeque<>();
 	protected Deque<String> stack = new ArrayDeque<>();
 
-	String result="";
+	private String result="";
 
 	
 	//Work on greeting message that shows the brand of the calculator and other anesthetics
@@ -158,9 +160,9 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		button2.addActionListener(this);
 		button3.addActionListener(this);
 		button0.addActionListener(this);
-		buttonPlus.addActionListener(this);
-		buttonMinus.addActionListener(this);
 		buttonDiv.addActionListener(this);
+		buttonPlus.addActionListener(this);	
+		buttonMinus.addActionListener(this);		
 		buttonMulti.addActionListener(this);
 		buttonSpace.addActionListener(this);
 		
@@ -187,10 +189,10 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		buttonEqual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				int answer = calculatePostFix();
+				String answer = calculatePostFix();
 				
 				expressionTxtA.setText("");
-				expressionTxtA.setText(String.valueOf(answer));
+				expressionTxtA.setText(answer);
 			}
 		});
 		
@@ -349,9 +351,25 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		}
 	}
 	
-	public int calculatePostFix() {
+	public String calculatePostFix() {
 		
 		String inputExpression = expressionTxtA.getText();
+		
+		
+		
+		
+		//Assigns a patter as an object
+		Pattern pattern = Pattern.compile("\\s");
+		
+		//check set matcher to the patter
+		Matcher matcher = pattern.matcher(inputExpression);
+		
+		//Determine if space is in string
+		boolean found = matcher.find();
+		
+		if(found == true)
+		{
+		
 		String[] Expression = inputExpression.split(" ");
 				
 		Deque<Integer> stack = new ArrayDeque<>();
@@ -408,7 +426,18 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 		int result = stack.pop();
 		System.out.println("The result is: " + result);
 			
-		return result;
+		String ans = (String.valueOf(result));
+		
+		return ans;
+		}
+		else {
+		
+			//
+			System.out.println("Invalid postfix Notation");
+			
+		}
+		
+		return "Invalid postfix Notation";
 	}
 	
 	public String infixToPostfix() {		
@@ -431,13 +460,13 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 			
 			else {
 				
-				result += Expression[i];
+				result += Expression[i] + " ";
 				System.out.println(Expression[i]);
 			}
 		}
 			
 			 while(!stack.isEmpty()) {
-				 result += stack.pop();
+				 result += stack.pop() + " ";
 			 }
 			 System.out.println(result);
 		      return result; 
@@ -460,7 +489,7 @@ public class HP_35_Calculator extends JFrame  implements ActionListener{
 	               stack.push(opTop);
 	               break;
 	            } 
-	            else result += opTop;
+	            else result += opTop + " ";
 	         }
 	      
 	      System.out.println(expression);
